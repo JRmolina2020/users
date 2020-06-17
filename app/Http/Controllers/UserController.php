@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\User;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use App\User;
+
+
 
 class UserController extends Controller
 {
@@ -17,7 +20,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::orderBy('id', 'DESC')->get();
+
+        //  $user = User::with('roles:id,name')->select('id', 'name', 'surname', 'email', 'image')->get();
+        $user = User::with('roles')->get();
         return response()->json($user);
     }
 
@@ -46,9 +51,15 @@ class UserController extends Controller
         if ($request->hasFile('image')) {
             $user['image'] = $request->file('image')->store('uploads', 'public');
         }
-        $user['password'] = bcrypt($request['password']);
-        User::insert($user);
-        return response()->json(['message' => 'Ha sido Registrado'], 200);
+        $user = User::create([
+            'name' => $request['name'],
+            'surname' => $request['surname'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+            'image' => $request->file('image')->store('uploads', 'public')
+        ]);
+        $user->assignRole($request['rol']);
+        return response()->json(['message' => 'El usuario ha sido creado'], 200);
     }
 
 
@@ -68,7 +79,7 @@ class UserController extends Controller
             'email' => request('email'),
 
         ])->save();
-        return response()->json(compact('user'), 201);
+        return response()->json(['message' => 'El usuario ha sido modificado'], 201);
     }
     public function destroy($id)
     {
@@ -101,6 +112,6 @@ class UserController extends Controller
             $user['password'] = bcrypt($request['password'])
 
         ])->save();
-        return response()->json(compact('user'), 201);
+        return response()->json(['message' => 'El password ha sido cambiado'], 201);
     }
 }

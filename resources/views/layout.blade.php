@@ -1,5 +1,5 @@
 @include('header')
-<body class="hold-transition skin-purple sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini">
   <div class="wrapper">
     <header class="main-header">
       <a href="https://i.ya-webdesign.com/images/png-avatar-4.png" class="logo">
@@ -31,11 +31,15 @@
         {{--  END NAVIGATION  --}}
       </section>
     </aside>
+
     <div class="content-wrapper">
-      <section class="content">
-        <div class="col-lg-10 principal">
-          <div class="box-body" id="app">
-           @yield('content')
+      <section class="content" id="app">
+        <div class="box box-danger col-lg-8 principal">
+          <div class="box-header with-border">
+            <h3 class="box-title">@yield('titlepanel')</h3>
+          </div>
+          <div class="box-body">
+            @yield('content')
           </div>
         </div>
       </section>

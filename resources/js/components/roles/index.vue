@@ -1,21 +1,21 @@
 <template>
   <div>
-    <Add ref="form_user"></Add>
-    <List-User v-on:show="show"></List-User>
+    <Add ref="form_role"></Add>
+    <List-Role v-on:show="show"></List-Role>
   </div>
 </template>
 <script>
-import ListUser from "./list";
+import ListRole from "./list";
 import Add from "./add";
 export default {
   name: "users",
   components: {
-    ListUser,
+    ListRole,
     Add
   },
   methods: {
     show(row) {
-      this.$refs.form_user.show(row);
+      this.$refs.form_role.show(row);
     }
   }
 };

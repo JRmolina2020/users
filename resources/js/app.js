@@ -17,6 +17,11 @@ Vue.use(SmartTable);
 //end use
 Vue.component("login", require("./components/login.vue").default);
 Vue.component("users", require("./components/users/index.vue").default);
+Vue.component("roles", require("./components/roles/index.vue").default);
+Vue.component(
+    "permissions",
+    require("./components/permissions/index.vue").default
+);
 
 const app = new Vue({
     el: "#app",
