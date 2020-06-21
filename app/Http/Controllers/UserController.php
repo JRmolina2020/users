@@ -20,12 +20,10 @@ class UserController extends Controller
      */
     public function index()
     {
-
-        //  $user = User::with('roles:id,name')->select('id', 'name', 'surname', 'email', 'image')->get();
-        $user = User::with('roles')->get();
-        return response()->json($user);
+        $users = User::with('roles')->get();
+        // $users = DB::table('users')->select('id', 'name', 'surname', 'status', 'email', 'image')->get();
+        return response()->json($users);
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -36,16 +34,6 @@ class UserController extends Controller
     public function store(Request $request)
 
     {
-        $validator = Validator::make(request()->input(), [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(array(
-                'success' => false,
-                'errors' => $validator->getMessageBag()->toArray()
-            ), 422);
-        }
 
         $user = $request->all();
         if ($request->hasFile('image')) {
@@ -58,10 +46,9 @@ class UserController extends Controller
             'password' => bcrypt($request['password']),
             'image' => $request->file('image')->store('uploads', 'public')
         ]);
-        $user->assignRole($request['rol']);
+        $user->roles()->sync($request['rol']);
         return response()->json(['message' => 'El usuario ha sido creado'], 200);
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -77,8 +64,8 @@ class UserController extends Controller
             'name' => request('name'),
             'surname' => request('surname'),
             'email' => request('email'),
-
         ])->save();
+        $user->roles()->sync($request['rol']);
         return response()->json(['message' => 'El usuario ha sido modificado'], 201);
     }
     public function destroy($id)

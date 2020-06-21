@@ -2096,6 +2096,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2433,6 +2438,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2448,6 +2464,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       submitted: true,
+      rolesitem: [],
       form: {
         id: null,
         name: null,
@@ -2509,15 +2526,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     show: function show(row) {
+      var _this2 = this;
+
       this.form.id = row.id;
       this.form.name = row.name;
-      this.form.permissions = row.permissions;
+      row.permissions.forEach(function (element) {
+        _this2.rolesitem.push(element.id);
+      });
+      this.form.permissions = this.rolesitem;
       $("#model").modal("show");
+    },
+    clearrolesitem: function clearrolesitem() {
+      this.rolesitem = [];
+      $("#model").modal("hide");
     },
     clear: function clear() {
       this.form.id = null;
       this.form.name = null;
       this.$validator.reset();
+      this.rolesitem = [];
+      this.form.permissions = [];
     }
   }
 });
@@ -2576,13 +2604,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2812,6 +2833,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2904,6 +2965,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.name = row.name;
       this.form.surname = row.surname;
       this.form.email = row.email;
+      this.form.rol = row.roles[0].id;
       $("#model").modal("show");
     },
     clear: function clear() {
@@ -2912,6 +2974,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.surname = null;
       this.form.email = null;
       this.form.password = null;
+      this.form.rol = null;
       this.$validator.reset();
     },
     getImage: function getImage(event) {
@@ -2984,6 +3047,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -3364,6 +3429,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -55967,6 +56033,21 @@ var render = function() {
                 _vm._v("Editar permiso")
               ]),
           _vm._v(" "),
+          _c("section", { attrs: { slot: "closebtn" }, slot: "closebtn" }, [
+            _c(
+              "button",
+              {
+                staticClass: "close",
+                attrs: {
+                  type: "button",
+                  "data-dismiss": "modal",
+                  "aria-label": "Close"
+                }
+              },
+              [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+            )
+          ]),
+          _vm._v(" "),
           _c(
             "section",
             { attrs: { slot: "titlebutton" }, slot: "titlebutton" },
@@ -56288,6 +56369,22 @@ var render = function() {
                 _vm._v("Editar rol")
               ]),
           _vm._v(" "),
+          _c("section", { attrs: { slot: "closebtn" }, slot: "closebtn" }, [
+            _c(
+              "button",
+              {
+                staticClass: "close",
+                attrs: {
+                  type: "button",
+                  "data-dismiss": "modal",
+                  "aria-label": "Close"
+                },
+                on: { click: _vm.clearrolesitem }
+              },
+              [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+            )
+          ]),
+          _vm._v(" "),
           _c(
             "section",
             { attrs: { slot: "titlebutton" }, slot: "titlebutton" },
@@ -56352,37 +56449,90 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", { attrs: { for: "" } }, [_vm._v("Nombre")]),
-                    _vm._v(" "),
-                    _c("multiselect", {
-                      attrs: {
-                        "tag-placeholder": "Añadir el nuevo permiso",
-                        placeholder: "Eliga los permisos",
-                        label: "name",
-                        "track-by": "name",
-                        options: _vm.permissions,
-                        multiple: true,
-                        taggable: true
-                      },
-                      model: {
-                        value: _vm.form.permissions,
-                        callback: function($$v) {
-                          _vm.$set(_vm.form, "permissions", $$v)
-                        },
-                        expression: "form.permissions"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("pre", { staticClass: "language-json" }, [
-                      _c("code", [_vm._v(_vm._s(_vm.form.permissions))])
-                    ])
-                  ],
-                  1
-                ),
+                _vm.form.id
+                  ? _c(
+                      "div",
+                      { staticClass: "row" },
+                      _vm._l(_vm.permissions, function(item, index) {
+                        return _c(
+                          "div",
+                          { key: index, staticClass: "form-group" },
+                          [
+                            _c("div", { staticClass: "col" }, [
+                              _c("div", { staticClass: "has-error" }, [
+                                _c("div", { staticClass: "checkbox" }, [
+                                  _c("label", [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.permissions,
+                                          expression: "form.permissions"
+                                        }
+                                      ],
+                                      attrs: { type: "checkbox" },
+                                      domProps: {
+                                        value: item.id,
+                                        checked: Array.isArray(
+                                          _vm.form.permissions
+                                        )
+                                          ? _vm._i(
+                                              _vm.form.permissions,
+                                              item.id
+                                            ) > -1
+                                          : _vm.form.permissions
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          var $$a = _vm.form.permissions,
+                                            $$el = $event.target,
+                                            $$c = $$el.checked ? true : false
+                                          if (Array.isArray($$a)) {
+                                            var $$v = item.id,
+                                              $$i = _vm._i($$a, $$v)
+                                            if ($$el.checked) {
+                                              $$i < 0 &&
+                                                _vm.$set(
+                                                  _vm.form,
+                                                  "permissions",
+                                                  $$a.concat([$$v])
+                                                )
+                                            } else {
+                                              $$i > -1 &&
+                                                _vm.$set(
+                                                  _vm.form,
+                                                  "permissions",
+                                                  $$a
+                                                    .slice(0, $$i)
+                                                    .concat($$a.slice($$i + 1))
+                                                )
+                                            }
+                                          } else {
+                                            _vm.$set(
+                                              _vm.form,
+                                              "permissions",
+                                              $$c
+                                            )
+                                          }
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(
+                                      "\n                    " +
+                                        _vm._s(item.name) +
+                                        "\n                  "
+                                    )
+                                  ])
+                                ])
+                              ])
+                            ])
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  : _vm._e(),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -56536,26 +56686,6 @@ var render = function() {
                                       attrs: { "aria-hidden": "true" }
                                     })
                                   ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "btn btn-danger btn-flat btn-sm",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.$emit("show", row)
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("i", {
-                                      staticClass: "fa fa-code-fork",
-                                      attrs: { "aria-hidden": "true" }
-                                    })
-                                  ]
                                 )
                               ])
                             ])
@@ -56641,6 +56771,21 @@ var render = function() {
                 _vm._v("Editar usuarios")
               ]),
           _vm._v(" "),
+          _c("section", { attrs: { slot: "closebtn" }, slot: "closebtn" }, [
+            _c(
+              "button",
+              {
+                staticClass: "close",
+                attrs: {
+                  type: "button",
+                  "data-dismiss": "modal",
+                  "aria-label": "Close"
+                }
+              },
+              [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+            )
+          ]),
+          _vm._v(" "),
           _c(
             "section",
             { attrs: { slot: "titlebutton" }, slot: "titlebutton" },
@@ -56664,144 +56809,10 @@ var render = function() {
                 }
               },
               [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Nombre")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "validate",
-                        rawName: "v-validate",
-                        value: "required|max:30|min:3",
-                        expression: "'required|max:30|min:3'"
-                      },
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.name,
-                        expression: "form.name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    class: {
-                      "is-invalid": _vm.submitted && _vm.errors.has("nombre")
-                    },
-                    attrs: {
-                      type: "text",
-                      placeholder: "Nombre",
-                      name: "nombre"
-                    },
-                    domProps: { value: _vm.form.name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.form, "name", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.submitted && _vm.errors.has("nombre")
-                    ? _c("div", { staticClass: "invalid-feedback" }, [
-                        _vm._v(_vm._s(_vm.errors.first("nombre")))
-                      ])
-                    : _vm._e()
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Apellido")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "validate",
-                        rawName: "v-validate",
-                        value: "required|max:30|min:3",
-                        expression: "'required|max:30|min:3'"
-                      },
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.surname,
-                        expression: "form.surname"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    class: {
-                      "is-invalid": _vm.submitted && _vm.errors.has("apellido")
-                    },
-                    attrs: {
-                      type: "text",
-                      placeholder: "Apellido",
-                      name: "apellido"
-                    },
-                    domProps: { value: _vm.form.surname },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.form, "surname", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.submitted && _vm.errors.has("apellido")
-                    ? _c("div", { staticClass: "invalid-feedback" }, [
-                        _vm._v(_vm._s(_vm.errors.first("apellido")))
-                      ])
-                    : _vm._e()
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Email")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "validate",
-                        rawName: "v-validate",
-                        value: "required|max:30|min:3",
-                        expression: "'required|max:30|min:3'"
-                      },
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.email,
-                        expression: "form.email"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    class: {
-                      "is-invalid": _vm.submitted && _vm.errors.has("email")
-                    },
-                    attrs: {
-                      type: "email",
-                      placeholder: "Email",
-                      name: "email"
-                    },
-                    domProps: { value: _vm.form.email },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.form, "email", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.submitted && _vm.errors.has("email")
-                    ? _c("div", { staticClass: "invalid-feedback" }, [
-                        _vm._v(_vm._s(_vm.errors.first("email")))
-                      ])
-                    : _vm._e()
-                ]),
-                _vm._v(" "),
-                !_vm.form.id
-                  ? _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "" } }, [_vm._v("Password")]),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-lg-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "" } }, [_vm._v("Nombre")]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -56814,116 +56825,303 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.form.password,
-                            expression: "form.password"
+                            value: _vm.form.name,
+                            expression: "form.name"
                           }
                         ],
                         staticClass: "form-control",
                         class: {
                           "is-invalid":
-                            _vm.submitted && _vm.errors.has("password")
+                            _vm.submitted && _vm.errors.has("nombre")
                         },
                         attrs: {
-                          type: "password",
-                          placeholder: "password",
-                          name: "password"
+                          type: "text",
+                          placeholder: "Nombre",
+                          name: "nombre"
                         },
-                        domProps: { value: _vm.form.password },
+                        domProps: { value: _vm.form.name },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(_vm.form, "password", $event.target.value)
+                            _vm.$set(_vm.form, "name", $event.target.value)
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _vm.submitted && _vm.errors.has("password")
+                      _vm.submitted && _vm.errors.has("nombre")
                         ? _c("div", { staticClass: "invalid-feedback" }, [
-                            _vm._v(_vm._s(_vm.errors.first("password")))
+                            _vm._v(_vm._s(_vm.errors.first("nombre")))
                           ])
                         : _vm._e()
                     ])
-                  : _c("div"),
-                _vm._v(" "),
-                !_vm.form.id
-                  ? _c("div", { staticClass: "form-group" }, [
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-lg-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "" } }, [_vm._v("Apellido")]),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
                             name: "validate",
                             rawName: "v-validate",
-                            value: "ext:jpeg,jpg,png,PNG,JPG|required",
-                            expression: "'ext:jpeg,jpg,png,PNG,JPG|required'"
+                            value: "required|max:30|min:3",
+                            expression: "'required|max:30|min:3'"
+                          },
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.surname,
+                            expression: "form.surname"
                           }
                         ],
                         staticClass: "form-control",
                         class: {
                           "is-invalid":
-                            _vm.submitted && _vm.errors.has("imagen")
+                            _vm.submitted && _vm.errors.has("apellido")
                         },
                         attrs: {
-                          name: "imagen",
-                          id: "imagen",
-                          accept: "image/*",
-                          type: "file"
+                          type: "text",
+                          placeholder: "Apellido",
+                          name: "apellido"
                         },
-                        on: { change: _vm.getImage }
+                        domProps: { value: _vm.form.surname },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "surname", $event.target.value)
+                          }
+                        }
                       }),
                       _vm._v(" "),
-                      _c("small", { staticClass: "form-text text-muted" }, [
-                        _vm._v("Imagen del usuario")
-                      ]),
-                      _vm._v(" "),
-                      _vm.submitted && _vm.errors.has("imagen")
+                      _vm.submitted && _vm.errors.has("apellido")
                         ? _c("div", { staticClass: "invalid-feedback" }, [
-                            _vm._v(_vm._s(_vm.errors.first("imagen")))
+                            _vm._v(_vm._s(_vm.errors.first("apellido")))
                           ])
                         : _vm._e()
                     ])
-                  : _c("div"),
-                _vm._v(" "),
-                _c("div", [
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.rol,
-                          expression: "form.rol"
-                        }
-                      ],
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.form,
-                            "rol",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    _vm._l(_vm.roles, function(item, index) {
-                      return _c("option", { key: index }, [
-                        _vm._v(_vm._s(item.name))
-                      ])
-                    }),
-                    0
-                  )
+                  ])
                 ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-lg-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "" } }, [_vm._v("Email")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "validate",
+                            rawName: "v-validate",
+                            value: "required|max:30|min:3",
+                            expression: "'required|max:30|min:3'"
+                          },
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.email,
+                            expression: "form.email"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: {
+                          "is-invalid": _vm.submitted && _vm.errors.has("email")
+                        },
+                        attrs: {
+                          type: "email",
+                          placeholder: "Email",
+                          name: "email"
+                        },
+                        domProps: { value: _vm.form.email },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "email", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.submitted && _vm.errors.has("email")
+                        ? _c("div", { staticClass: "invalid-feedback" }, [
+                            _vm._v(_vm._s(_vm.errors.first("email")))
+                          ])
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-lg-6" }, [
+                    _c("div", [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Rol")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.rol,
+                                expression: "form.rol"
+                              },
+                              {
+                                name: "validate",
+                                rawName: "v-validate",
+                                value: "required",
+                                expression: "'required'"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid":
+                                _vm.submitted && _vm.errors.has("rol")
+                            },
+                            attrs: { name: "rol" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "rol",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.roles, function(item, index) {
+                            return _c(
+                              "option",
+                              { key: index, domProps: { value: item.id } },
+                              [_vm._v(_vm._s(item.name))]
+                            )
+                          }),
+                          0
+                        ),
+                        _vm._v(" "),
+                        _vm.submitted && _vm.errors.has("rol")
+                          ? _c("div", { staticClass: "invalid-feedback" }, [
+                              _vm._v(_vm._s(_vm.errors.first("rol")))
+                            ])
+                          : _vm._e()
+                      ])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                !_vm.form.id
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-lg-6" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c("label", { attrs: { for: "" } }, [
+                            _vm._v("Password")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "validate",
+                                rawName: "v-validate",
+                                value: "required|max:30|min:3",
+                                expression: "'required|max:30|min:3'"
+                              },
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.password,
+                                expression: "form.password"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid":
+                                _vm.submitted && _vm.errors.has("password")
+                            },
+                            attrs: {
+                              type: "password",
+                              placeholder: "password",
+                              name: "password"
+                            },
+                            domProps: { value: _vm.form.password },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.form,
+                                  "password",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.submitted && _vm.errors.has("password")
+                            ? _c("div", { staticClass: "invalid-feedback" }, [
+                                _vm._v(_vm._s(_vm.errors.first("password")))
+                              ])
+                            : _vm._e()
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-lg-6" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c("label", [_vm._v("Perfil")]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "validate",
+                                rawName: "v-validate",
+                                value: "ext:jpeg,jpg,png,PNG,JPG|required",
+                                expression:
+                                  "'ext:jpeg,jpg,png,PNG,JPG|required'"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid":
+                                _vm.submitted && _vm.errors.has("imagen")
+                            },
+                            attrs: {
+                              name: "imagen",
+                              id: "imagen",
+                              accept: "image/*",
+                              type: "file"
+                            },
+                            on: { change: _vm.getImage }
+                          }),
+                          _vm._v(" "),
+                          _c("small", { staticClass: "form-text text-muted" }, [
+                            _vm._v("Imagen del usuario")
+                          ]),
+                          _vm._v(" "),
+                          _vm.submitted && _vm.errors.has("imagen")
+                            ? _c("div", { staticClass: "invalid-feedback" }, [
+                                _vm._v(_vm._s(_vm.errors.first("imagen")))
+                              ])
+                            : _vm._e()
+                        ])
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { attrs: { velse: "" } }),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -57060,7 +57258,13 @@ var render = function() {
                               _vm._v(" "),
                               _c("td", [_vm._v(_vm._s(row.surname))]),
                               _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(row.roles[0].name))]),
+                              _c("td", [
+                                _c(
+                                  "span",
+                                  { staticClass: "pull-right badge bg-blue" },
+                                  [_vm._v(_vm._s(row.roles[0].name))]
+                                )
+                              ]),
                               _vm._v(" "),
                               _c("td", [
                                 _c("img", {
@@ -57451,24 +57655,44 @@ var render = function() {
       2
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "modal fade", attrs: { id: "model" } }, [
-      _c("div", { staticClass: "modal-dialog" }, [
-        _c(
-          "div",
-          { staticClass: "modal-content" },
-          [
-            _c("div", { staticClass: "modal-header" }, [
-              _c("p", { staticClass: "modal-title" }, [_vm._t("title")], 2)
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }, [_vm._t("body")], 2),
-            _vm._v(" "),
-            _vm._t("buttonsmodal")
-          ],
-          2
-        )
-      ])
-    ])
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          "data-backdrop": "static",
+          "data-keyboard": "false",
+          d: "",
+          tabindex: "-1",
+          id: "model"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c(
+            "div",
+            { staticClass: "modal-content" },
+            [
+              _c(
+                "div",
+                { staticClass: "modal-header" },
+                [
+                  _c("p", { staticClass: "modal-title" }, [_vm._t("title")], 2),
+                  _vm._v(" "),
+                  _vm._t("closebtn")
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [_vm._t("body")], 2),
+              _vm._v(" "),
+              _vm._t("buttonsmodal")
+            ],
+            2
+          )
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = []

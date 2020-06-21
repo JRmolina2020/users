@@ -3,6 +3,11 @@
     <Modal-Resource v-on:clear="clear" title="Registro de usuarios">
       <section v-if="!form.id" slot="title">Registro de usuarios</section>
       <section v-else slot="title">Editar usuarios</section>
+      <section slot="closebtn">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </section>
       <section slot="titlebutton">Registrar usuarios</section>
       <section slot="body">
         <form
@@ -11,108 +16,143 @@
           autocomplete="off"
           enctype="multipart/form-data"
         >
-          <div class="form-group">
-            <label for>Nombre</label>
-            <input
-              type="text"
-              v-validate="'required|max:30|min:3'"
-              class="form-control"
-              :class="{
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label for>Nombre</label>
+                <input
+                  type="text"
+                  v-validate="'required|max:30|min:3'"
+                  class="form-control"
+                  :class="{
                                 'is-invalid': submitted && errors.has('nombre')
                             }"
-              placeholder="Nombre"
-              v-model="form.name"
-              name="nombre"
-            />
-            <div
-              v-if="submitted && errors.has('nombre')"
-              class="invalid-feedback"
-            >{{ errors.first("nombre") }}</div>
-          </div>
-          <div class="form-group">
-            <label for>Apellido</label>
-            <input
-              type="text"
-              v-validate="'required|max:30|min:3'"
-              class="form-control"
-              :class="{
+                  placeholder="Nombre"
+                  v-model="form.name"
+                  name="nombre"
+                />
+                <div
+                  v-if="submitted && errors.has('nombre')"
+                  class="invalid-feedback"
+                >{{ errors.first("nombre") }}</div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label for>Apellido</label>
+                <input
+                  type="text"
+                  v-validate="'required|max:30|min:3'"
+                  class="form-control"
+                  :class="{
                                 'is-invalid':
                                     submitted && errors.has('apellido')
                             }"
-              placeholder="Apellido"
-              v-model="form.surname"
-              name="apellido"
-            />
-            <div
-              v-if="submitted && errors.has('apellido')"
-              class="invalid-feedback"
-            >{{ errors.first("apellido") }}</div>
+                  placeholder="Apellido"
+                  v-model="form.surname"
+                  name="apellido"
+                />
+                <div
+                  v-if="submitted && errors.has('apellido')"
+                  class="invalid-feedback"
+                >{{ errors.first("apellido") }}</div>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for>Email</label>
-            <input
-              type="email"
-              v-validate="'required|max:30|min:3'"
-              class="form-control"
-              :class="{
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label for>Email</label>
+                <input
+                  type="email"
+                  v-validate="'required|max:30|min:3'"
+                  class="form-control"
+                  :class="{
                                 'is-invalid': submitted && errors.has('email')
                             }"
-              placeholder="Email"
-              v-model="form.email"
-              name="email"
-            />
-            <div
-              v-if="submitted && errors.has('email')"
-              class="invalid-feedback"
-            >{{ errors.first("email") }}</div>
+                  placeholder="Email"
+                  v-model="form.email"
+                  name="email"
+                />
+                <div
+                  v-if="submitted && errors.has('email')"
+                  class="invalid-feedback"
+                >{{ errors.first("email") }}</div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div>
+                <div class="form-group">
+                  <label>Rol</label>
+                  <select
+                    v-model="form.rol"
+                    v-validate="'required'"
+                    class="form-control"
+                    name="rol"
+                    :class="{
+                                'is-invalid': submitted && errors.has('rol')
+                            }"
+                  >
+                    <option
+                      v-for="(item, index) in roles"
+                      :value="item.id"
+                      :key="index"
+                    >{{item.name}}</option>
+                  </select>
+                  <div
+                    v-if="submitted && errors.has('rol')"
+                    class="invalid-feedback"
+                  >{{ errors.first("rol") }}</div>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div class="form-group" v-if="!form.id">
-            <label for>Password</label>
-            <input
-              type="password"
-              v-validate="'required|max:30|min:3'"
-              class="form-control"
-              :class="{
+          <div class="row" v-if="!form.id">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label for>Password</label>
+                <input
+                  type="password"
+                  v-validate="'required|max:30|min:3'"
+                  class="form-control"
+                  :class="{
                                 'is-invalid':
                                     submitted && errors.has('password')
                             }"
-              placeholder="password"
-              v-model="form.password"
-              name="password"
-            />
-            <div
-              v-if="submitted && errors.has('password')"
-              class="invalid-feedback"
-            >{{ errors.first("password") }}</div>
-          </div>
-          <div v-else></div>
-
-          <div class="form-group" v-if="!form.id">
-            <input
-              name="imagen"
-              id="imagen"
-              v-validate="'ext:jpeg,jpg,png,PNG,JPG|required'"
-              @change="getImage"
-              accept="image/*"
-              class="form-control"
-              type="file"
-              :class="{
+                  placeholder="password"
+                  v-model="form.password"
+                  name="password"
+                />
+                <div
+                  v-if="submitted && errors.has('password')"
+                  class="invalid-feedback"
+                >{{ errors.first("password") }}</div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>Perfil</label>
+                <input
+                  name="imagen"
+                  id="imagen"
+                  v-validate="'ext:jpeg,jpg,png,PNG,JPG|required'"
+                  @change="getImage"
+                  accept="image/*"
+                  class="form-control"
+                  type="file"
+                  :class="{
                                 'is-invalid': submitted && errors.has('imagen')
                             }"
-            />
-            <small class="form-text text-muted">Imagen del usuario</small>
-            <div
-              v-if="submitted && errors.has('imagen')"
-              class="invalid-feedback"
-            >{{ errors.first("imagen") }}</div>
+                />
+                <small class="form-text text-muted">Imagen del usuario</small>
+                <div
+                  v-if="submitted && errors.has('imagen')"
+                  class="invalid-feedback"
+                >{{ errors.first("imagen") }}</div>
+              </div>
+            </div>
           </div>
-          <div v-else></div>
-          <div>
-            <select v-model="form.rol">
-              <option v-for="(item, index)  in roles" :key="index">{{item.name}}</option>
-            </select>
-          </div>
+          <div velse></div>
 
           <button
             :hidden="errors.any()"
@@ -233,6 +273,7 @@ export default {
       this.form.name = row.name;
       this.form.surname = row.surname;
       this.form.email = row.email;
+      this.form.rol = row.roles[0].id;
       $("#model").modal("show");
     },
     clear() {
@@ -241,6 +282,7 @@ export default {
       this.form.surname = null;
       this.form.email = null;
       this.form.password = null;
+      this.form.rol = null;
       this.$validator.reset();
     },
 

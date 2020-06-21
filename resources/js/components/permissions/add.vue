@@ -3,6 +3,11 @@
     <Modal-Resource v-on:clear="clear" title="Registro de roles">
       <section v-if="!form.id" slot="title">Registro de permisos</section>
       <section v-else slot="title">Editar permiso</section>
+      <section slot="closebtn">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </section>
       <section slot="titlebutton">Registrar permiso</section>
       <section slot="body">
         <form method="POST" @submit.prevent="add(form.id)" autocomplete="off">

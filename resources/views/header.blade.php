@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="{{ asset('css/alt/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/alt/ionicons.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/alt/skin-red.min.css') }}">
-        <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fontisto@v3.0.4/css/fontisto/fontisto.min.css"></i>
     </head>
     <style>
      

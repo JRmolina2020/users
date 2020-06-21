@@ -32,7 +32,9 @@
             <tr v-for="(row, index) in displayData" :key="index">
               <td>{{ row.name }}</td>
               <td>{{ row.surname }}</td>
-              <td>{{row.roles[0].name}}</td>
+              <td>
+                <span class="pull-right badge bg-blue">{{row.roles[0].name}}</span>
+              </td>
               <td>
                 <img
                   :src="`storage/${row.image}`"

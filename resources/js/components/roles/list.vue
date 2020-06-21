@@ -33,13 +33,6 @@
                 >
                   <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </button>
-                <button
-                  type="button"
-                  @click="$emit('show', row)"
-                  class="btn btn-danger btn-flat btn-sm"
-                >
-                  <i class="fa fa-code-fork" aria-hidden="true"></i>
-                </button>
               </td>
             </tr>
           </tbody>

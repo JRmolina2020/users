@@ -3,6 +3,17 @@
     <Modal-Resource v-on:clear="clear" title="Registro de roles">
       <section v-if="!form.id" slot="title">Registro de roles</section>
       <section v-else slot="title">Editar rol</section>
+      <section slot="closebtn">
+        <button
+          @click="clearrolesitem"
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </section>
       <section slot="titlebutton">Registrar rol</section>
       <section slot="body">
         <form method="POST" @submit.prevent="add(form.id)" autocomplete="off">
@@ -24,19 +35,19 @@
               class="invalid-feedback"
             >{{ errors.first("nombre") }}</div>
           </div>
-          <div class="form-group">
-            <label for>Nombre</label>
-            <multiselect
-              v-model="form.permissions"
-              tag-placeholder="Añadir el nuevo permiso"
-              placeholder="Eliga los permisos"
-              label="name"
-              track-by="name"
-              :options="permissions"
-              :multiple="true"
-              :taggable="true"
-            ></multiselect>
-            <pre class="language-json"><code>{{ form.permissions  }}</code></pre>
+          <div v-if="form.id" class="row">
+            <div v-for="(item, index) in permissions" :key="index" class="form-group">
+              <div class="col">
+                <div class="has-error">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" v-model="form.permissions" :value="item.id" />
+                      {{ item.name }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <button
             :hidden="errors.any()"
@@ -76,6 +87,7 @@ export default {
   data() {
     return {
       submitted: true,
+      rolesitem: [],
       form: {
         id: null,
         name: null,
@@ -142,14 +154,23 @@ export default {
     show(row) {
       this.form.id = row.id;
       this.form.name = row.name;
-      this.form.permissions = row.permissions;
+      row.permissions.forEach(element => {
+        this.rolesitem.push(element.id);
+      });
+      this.form.permissions = this.rolesitem;
       $("#model").modal("show");
     },
 
+    clearrolesitem() {
+      this.rolesitem = [];
+      $("#model").modal("hide");
+    },
     clear() {
       this.form.id = null;
       this.form.name = null;
       this.$validator.reset();
+      this.rolesitem = [];
+      this.form.permissions = [];
     }
   }
 };

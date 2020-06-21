@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Model\Role;
 
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+
 
 class RoleController extends Controller
 {
@@ -18,7 +18,8 @@ class RoleController extends Controller
     public function index()
     {;
 
-        $roles = Role::with('permissions:id,name,role_id')->select('id', 'name')->get();
+        $roles = Role::with('permissions')->get();
+        //$roles = DB::table('roles')->select('id', 'name')->get();
         return response()->json($roles);
     }
 
@@ -31,8 +32,11 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $role = Role::create(['name' => $request['name']]);
-        $role->givePermissionTo($request['permissions']);
+        $roles = Role::create([
+            'name' => $request['name'],
+
+        ]);
+        $roles->save();
         return response()->json(['message' => 'El rol ha sido creado'], 200);
     }
 
@@ -49,7 +53,7 @@ class RoleController extends Controller
         $role->fill([
             'name' => request('name'),
         ])->save();
-        $role->givePermissionTo($request['permissions']);
+        $role->permissions()->sync($request['permissions']);
         return response()->json(['message' => 'El rol ha sido modificado'], 201);
     }
 

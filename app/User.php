@@ -5,12 +5,14 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Auth;
+use App\Model\Permission;
 
 class User extends Authenticatable
 {
     use HasRoles;
     use Notifiable;
-    protected $guard_name = "web";
+
 
 
     /**
@@ -39,4 +41,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Model\Role')->withTimestamps();
+    }
+
+    public function allPermissions()
+    {
+    }
 }

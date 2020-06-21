@@ -16,7 +16,7 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = DB::table('permissions')->select('id', 'name')->get();
-        return response()->json($permissions);
+        return $permissions;
     }
 
 
@@ -31,8 +31,6 @@ class PermissionController extends Controller
 
         $permission = Permission::create([
             'name' => $request['name'],
-            'guard_name' => 'web'
-
         ]);
         $permission->save();
         return response()->json(['message' => 'El permiso ha sido creado'], 200);
